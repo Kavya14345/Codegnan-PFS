@@ -7,7 +7,6 @@ What is python?
    -> line by line execution and can throw the error if any but all before lines will execute and gives output.
 3. Dynamically typed language
    -> No need to mention the kind of data taking to variable
-
 '''
 num=23
 so="python"
