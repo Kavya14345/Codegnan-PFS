@@ -1,0 +1,346 @@
+Corelated Subqueries
+=====================
+mysql> -- Q. employees earning more than avg salary of their department
+mysql> select emp_name,salary from employee e where salary>(select avg(salary) from employee where dept_id=e.dept_id);
++----------+----------+
+| emp_name | salary   |
++----------+----------+
+| Ravi     | 75000.00 |
+| Anjali   | 80000.00 |
+| Manoj    | 95000.00 |
++----------+----------+
+3 rows in set (0.04 sec)
+
+Q.Department with employee count>2
+mysql> select dept_name from department d where (select count(emp_id) from employee e where e.dept_id=d.dept_id)>2;
++-----------+
+| dept_name |
++-----------+
+| IT        |
++-----------+
+1 row in set (0.00 sec)
+
+Q. project with budget greater than avg budget of their department
+mysql> select p.proj_name,p.dept_id,p.budget from project p where p.budget>(select avg(p2.budget) from project p2 where p2.dept_id=p.dept_id);
++------------+---------+------------+
+| proj_name  | dept_id | budget     |
++------------+---------+------------+
+| ERP System |       2 | 1500000.00 |
++------------+---------+------------+
+1 row in set (0.02 sec)
+
+EXISTS NOT EXISTS SUB QUERY:
+==============================
+1.DEPARTMENT HAVING EMPLOYEES:
+===============================
+
+mysql> select dept_name from department d where exists(select 1 from employee e where e.dept_id = d.dept_id);
++-----------+
+| dept_name |
++-----------+
+| HR        |
+| IT        |
+| Finance   |
+| Marketing |
++-----------+
+
+2.DEPARTMENT HAVING NO EMPLOYEES:
+=================================
+
+mysql>select dept_name from department d where not exists(select 1 from employee e where e.dept_id = d.dept_id);
+Empty set (0.00 sec)
+=======================================================================================================
+I.Q
+===
+get second maximum salary of employees
+
+mysql> select max(salary) as second_max_salary from employee where salary<(select max(salary) from employee);
++-------------------+
+| second_max_salary |
++-------------------+
+|          90000.00 |
++-------------------+
+1 row in set (0.01 sec)
+
+get second minimum salary of employees
+mysql> select min(salary) as second_min_salary from employee where salary>(select min(salary) from employee);
++-------------------+
+| second_min_salary |
++-------------------+
+|          55000.00 |
++-------------------+
+1 row in set (0.00 sec)
+
+get third maximum salary of employees
+mysql> select max(salary) as third_max_salary from employee where salary<(select max(salary) from employee where salary<(select max(salary) from employee));
++------------------+
+| third_max_salary |
++------------------+
+|         80000.00 |
++------------------+
+1 row in set (0.00 sec)
+
+get third minimum salary of employees
+mysql> select min(salary) as third_min_salary from employee where salary>(select min(salary) from employee where salary>(select min(salary) from employee));
++------------------+
+| third_min_salary |
++------------------+
+|         60000.00 |
++------------------+
+1 row in set (0.00 sec)
+
+minimum salary for each dept
+-----------------------------
+mysql> select d.dept_name,min(e.salary) as min_salary from employee e join department d  on e.dept_id=d.dept_id group by d.dept_name;
++-----------+------------+
+| dept_name | min_salary |
++-----------+------------+
+| HR        |   55000.00 |
+| IT        |   60000.00 |
+| Finance   |   90000.00 |
+| Marketing |   50000.00 |
++-----------+------------+
+4 rows in set (0.01 sec)
+-->minimum salary
+mysql> select d.dept_name,e.emp_name,e.salary as min_salary from employee e join department d  on e.dept_id=d.dept_id where e.salary=(select min(e2.salary) from employee e2 where e2.dept_id=e.dept_id);
++-----------+----------+------------+
+| dept_name | emp_name | min_salary |
++-----------+----------+------------+
+| HR        | Sneha    |   55000.00 |
+| IT        | Amit     |   60000.00 |
+| Finance   | Priya    |   90000.00 |
+| Marketing | Vikas    |   50000.00 |
++-----------+----------+------------+
+4 rows in set (0.00 sec)
+-->second minimum salary
+mysql> select d.dept_name,e.emp_name,e.salary as second_min_salary from employee e join department d on e.dept_id=d.dept_id where e.salary=(select min(e2.salary) from employee e2 where e2.dept_id=e.dept_id and e2.salary>(select min(e3.salary) from employee e3 where e3.dept_id=e2.dept_id));
++-----------+----------+-------------------+
+| dept_name | emp_name | second_min_salary |
++-----------+----------+-------------------+
+| IT        | Ravi     |          75000.00 |
+| Finance   | Manoj    |          95000.00 |
++-----------+----------+-------------------+
+2 rows in set (0.00 sec)
+
+Maximum salary for each dept
+-------------------------------
+-->second maximum salary
+select d.dept_name,e.emp_name,e.salary as max_salary from employee e join department d  on e.dept_id=d.dept_id where e.salary=(select max(e2.salary) from employee e2 where e2.dept_id=e.dept_id and e2.salary<(select max(e3.salary) from employee e3 where e3.dept_id=e2.dept_id));
++-----------+----------+------------+
+| dept_name | emp_name | max_salary |
++-----------+----------+------------+
+| IT        | Ravi     |   75000.00 |
+| Finance   | Priya    |   90000.00 |
++-----------+----------+------------+
+2 rows in set (0.00 sec)
+=========================================================================================================================================================================================
+
+Views:
+======
+What is view?
+-------------
+A view is a virtual table in MySQL,but from the result of a stored select statement,it looks and behaves like regular table when you query it,you can select a column from it, filter it and join it but it doesn't any data of its own everytime a view is queried, MySQL runs its underlying select statement against the real tables and returns the result
+think of a view as a saved, resusable query with a name,instead of typing out a long join every time, you create the view once, then simply run
+
+why do we need views?
+---------------------
+1. simplify complex queries
+2. reuse query logic
+3. data security
+4. different perspectives of the same data
+5. simplified reporting
+
+Advantage of views
+=================
+1.security
+2.simplicity
+3.reusability
+4.maintainability
+5.no extra storage cost
+6.custom data presentation
+
+1. Creating Views:
+=================
+create view view_name as select columns from tables where condition;
+
+2.Altering Views:
+=================
+alter view view_name as select new columns from new tables where new conditions;
+
+3. Drop the views:
+================
+drop view view_name;
+===========================================================================================================================================================================================
+
+Assignment:
+=========
+
+mysql> create database pfs3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use pfs3;
+Database changed
+mysql> CREATE TABLE departments (
+    -> 	dept_id INT PRIMARY KEY AUTO_INCREMENT,
+    -> 	dept_name VARCHAR(50),
+    -> 	location VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>  
+mysql> CREATE TABLE employees (
+    -> 	emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    -> 	emp_name VARCHAR(100),
+    -> 	dept_id INT,
+    -> 	designation VARCHAR(50),
+    -> 	salary DECIMAL(10,2),
+    -> 	join_date DATE,
+    -> 	FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO departments (dept_name, location) VALUES
+    -> ('IT','Hyderabad'), ('HR','Bangalore'), ('Finance','Chennai'), ('Sales','Mumbai');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql>  
+mysql> INSERT INTO employees (emp_name, dept_id, designation, salary, join_date) VALUES
+    -> ('Rahul',1,'Software Engineer',55000,'2021-06-15'),
+    -> ('Anita',2,'HR Executive',38000,'2020-03-21'),
+    -> ('Suresh',4,'Sales Manager',52000,'2019-08-10'),
+    -> ('Priya',1,'Team Lead',65000,'2022-01-05'),
+    -> ('Kiran',3,'Finance Analyst',48000,'2018-12-11'),
+    -> ('Deepika',2,'HR Manager',60000,'2019-10-19');
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select *from employees;
++--------+----------+---------+-------------------+----------+------------+
+| emp_id | emp_name | dept_id | designation       | salary   | join_date  |
++--------+----------+---------+-------------------+----------+------------+
+|      1 | Rahul    |       1 | Software Engineer | 55000.00 | 2021-06-15 |
+|      2 | Anita    |       2 | HR Executive      | 38000.00 | 2020-03-21 |
+|      3 | Suresh   |       4 | Sales Manager     | 52000.00 | 2019-08-10 |
+|      4 | Priya    |       1 | Team Lead         | 65000.00 | 2022-01-05 |
+|      5 | Kiran    |       3 | Finance Analyst   | 48000.00 | 2018-12-11 |
+|      6 | Deepika  |       2 | HR Manager        | 60000.00 | 2019-10-19 |
++--------+----------+---------+-------------------+----------+------------+
+6 rows in set (0.00 sec)
+
+Q. Avoid re-writing the join between employees and departments every time someone need an employee's department name
+mysql> create view vw_emp_dept as select e.emp_id,e.emp_name,e.designation,d.dept_name,d.location from employees e join departments d on e.dept_id=d.dept_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select *from vw_emp_dept;
++--------+----------+-------------------+-----------+-----------+
+| emp_id | emp_name | designation       | dept_name | location  |
++--------+----------+-------------------+-----------+-----------+
+|      1 | Rahul    | Software Engineer | IT        | Hyderabad |
+|      4 | Priya    | Team Lead         | IT        | Hyderabad |
+|      2 | Anita    | HR Executive      | HR        | Bangalore |
+|      6 | Deepika  | HR Manager        | HR        | Bangalore |
+|      5 | Kiran    | Finance Analyst   | Finance   | Chennai   |
+|      3 | Suresh   | Sales Manager     | Sales     | Mumbai    |
++--------+----------+-------------------+-----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> show tables;
++----------------+
+| Tables_in_pfs3 |
++----------------+
+| departments    |
+| employees      |
+| vw_emp_dept    |
++----------------+
+3 rows in set (0.00 sec)
+
+Q. get total salary,avg salary and count of employees in every department
+mysql> create view vw_dept as select d.dept_name,count(e.emp_id) as total_employees,sum(e.salary) as total_salary,avg(salary) as average_salary from employees e join departments d on e.dept_id=d.dept_id group by dept_name;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select *from vw_dept;
++-----------+-----------------+--------------+----------------+
+| dept_name | total_employees | total_salary | average_salary |
++-----------+-----------------+--------------+----------------+
+| IT        |               2 |    120000.00 |   60000.000000 |
+| HR        |               2 |     98000.00 |   49000.000000 |
+| Finance   |               1 |     48000.00 |   48000.000000 |
+| Sales     |               1 |     52000.00 |   52000.000000 |
++-----------+-----------------+--------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> select d.dept_name,count(e.emp_id) as total_employees,sum(e.salary) as total_salary,avg(salary) as average_salary from employees e join departments d on e.dept_id=d.dept_id group by dept_name;
++-----------+-----------------+--------------+----------------+
+| dept_name | total_employees | total_salary | average_salary |
++-----------+-----------------+--------------+----------------+
+| IT        |               2 |    120000.00 |   60000.000000 |
+| HR        |               2 |     98000.00 |   49000.000000 |
+| Finance   |               1 |     48000.00 |   48000.000000 |
+| Sales     |               1 |     52000.00 |   52000.000000 |
++-----------+-----------------+--------------+----------------+
+4 rows in set (0.00 sec)
+
+
+Q. monthly salary and salary per annum of employees
+mysql> create view vm_emp_annual_salary as select emp_name,salary as monthly_salary,salary*12 as annual_salary from employees;
+Query OK, 0 rows affected (0.01 sec)
+mysql> select *from vm_emp_annual_salary;
++----------+----------------+---------------+
+| emp_name | monthly_salary | annual_salary |
++----------+----------------+---------------+
+| Rahul    |       55000.00 |     660000.00 |
+| Anita    |       38000.00 |     456000.00 |
+| Suresh   |       52000.00 |     624000.00 |
+| Priya    |       65000.00 |     780000.00 |
+| Kiran    |       48000.00 |     576000.00 |
+| Deepika  |       60000.00 |     720000.00 |
++----------+----------------+---------------+
+6 rows in set (0.01 sec)
+
+Multi-level Views---> creating views from another view
+mysql> create view vw_dept_avg as select dept_name,average_salary from vw_dept where average_salary>50000;
+Query OK, 0 rows affected (0.01 sec)
+mysql> select *from vw_dept_avg;
++-----------+----------------+
+| dept_name | average_salary |
++-----------+----------------+
+| IT        |   60000.000000 |
+| Sales     |   52000.000000 |
++-----------+----------------+
+2 rows in set (0.00 sec)
+
+Altering
+==========
+mysql> alter view vw_emp_dept as select e.emp_id,e.emp_name,d.dept_name from employees e join departments d on e.dept_id=d.dept_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select *from vw_emp_dept;
++--------+----------+-----------+
+| emp_id | emp_name | dept_name |
++--------+----------+-----------+
+|      1 | Rahul    | IT        |
+|      4 | Priya    | IT        |
+|      2 | Anita    | HR        |
+|      6 | Deepika  | HR        |
+|      5 | Kiran    | Finance   |
+|      3 | Suresh   | Sales     |
++--------+----------+-----------+
+6 rows in set (0.00 sec)
+
+Drop
+====
+mysql> drop view vw_emp_dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select table_name from information_schema.views where table_schema='pfs3';
++----------------------+
+| TABLE_NAME           |
++----------------------+
+| vw_dept              |
+| vm_emp_annual_salary |
+| vw_dept_avg          |
++----------------------+
+3 rows in set (0.02 sec)
+
+mysql> Terminal close -- exit!

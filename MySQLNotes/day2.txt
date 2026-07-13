@@ -1,0 +1,129 @@
+IQ**What is data , field ,record ,database?**
+============================================
+
+What is Data?
+-------------
+--> raw facts or figures without context
+e.g.: 101,kavya,645736,vsp
+
+What is Field?
+--------------
+--> smallest unit of data in a database(column/attribute)
+e.g.: Name , Id , Salary, Address
+
+What is Record?
+--------------
+--> collection of related fields(row/tuple)
+e.g.: (101,kavya,62543,vsp)
+
+What is Database?
+-----------------
+--> organized collection of related records stored together
+e.g.: an employee database containing all employee records
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Client Server Architecture
+==========================
+
+Client: The role of the client in client-server architecture is to send request to the server, and to get the response from the server.
+
+Server: 
+--> Server is a software and the role of the server in client-server arch is to take request from client.
+--> If the request is valid request then it will generate some response we can handover that response to client
+--> If client request is not a valid request then it will raise the errors.
+
+Protocol: It has to set of rules and regulations and the role of the protocol in client-server arch is to send request from client to server.
+
+
+Data Models in DBMS:
+====================
+--> A Data model defines how data is stored, organized and manipulated in a database
+
+1.Physical Data Model
+-----------------------
+--> Describes how data is physically stored in storage devices.
+--> mostly used by Database Administrators.
+
+2.Logical Data Model
+---------------------
+--> Defines the structure of the data (entities ,attributes and relationships) independent of physical storage areas.
+--> mostly used by Developers and Data Architects.
+
+3.Hierarchical Data Model
+--------------------------
+--> Data is represented as a tree structure (parent child relationship).
+e.g.: company-->departments-->employees
+
+4.Network Data Model
+--------------------
+--> Data is represented as a graph with records(nodes) and relationships(edges).
+e.g.: student enrolled in multiple courses , courses taught by multiple professors.
+
+5.Relational Data Model(RDBMS)
+------------------------------
+--> Data is stored in tables(relations) with rows(tuples) and columns(attributes).
+e.g.:
+student(id ,name ,marks, age, dept_id)
+department(dept_id , dept_name)
+
+6.Entity Relationship Data Model(ER Model)
+--------------------------------------------
+--> A conceptual model that shows entities(things) , attributes(properties) and relationships.
+
+
+
+MySQL Installation Process
+===========================
+URL: https://dev.mysql.com/downloads/installer/
+
+--> after installation go to location.
+just double click --> choose yes option
+
+shows 4 options
+---------------
+server
+client
+full 
+custom --> choose custom option --> choose next button
+
+--> it will show available products
+such as 
+MySQL Server
+MySQL Workbench
+MySQL shell
+select those versions and click on right arrow to form a list of products--> choose next button--> shows products to be installed--> select execute button-->select next 4 times and choose execute option and select next 4 times and at last finish --> shows workbench ui platform
+==============================================
+MySQL password: root
+
+SQL classes:
+
+https://tinyurl.com/MySQL-batch-03
+
+=================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

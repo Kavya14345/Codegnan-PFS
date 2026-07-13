@@ -1,0 +1,532 @@
+---------------Insert Rows--------------------------
+Approach-1:
+===========
+insert into table_name (column1,column2,-----) values(val1,val2------);
+--> same order as in table
+
+mysql> use pfs3;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_pfs3 |
++----------------+
+| company_staff  |
+| employees      |
++----------------+
+2 rows in set (0.02 sec)
+
+mysql> desc employees;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| empid     | char(5)     | YES  |     | NULL    |       |
+| FirstName | varchar(30) | YES  |     | NULL    |       |
+| LastName  | varchar(30) | YES  |     | NULL    |       |
+| age       | int         | YES  |     | NULL    |       |
+| gender    | char(1)     | YES  |     | NULL    |       |
+| doj       | date        | YES  |     | NULL    |       |
+| address   | tinytext    | YES  |     | NULL    |       |
+| dept      | char(20)    | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> insert into employees(empid,FirstName,LastName,age,gender,doj,address,dept) values('E001','Kavya','Sampathirao',21,'F','2024-03-20','VSP','CSE');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employees(empid,FirstName,LastName,age,gender,doj,address,dept) values('E002','Kanchana','Sampathirao',19,'F','2025-05-22','HYD','ECE');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employees(empid,FirstName,LastName,age,gender,doj,address,dept) values('E003','Sai','Sampathirao',21,'M','2020-03-23','HYD','CSE'),('E004','Rohan','Chaudhary',23,'M','2019-06-09','VZM','EEE');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept |
++-------+-----------+-------------+------+--------+------------+---------+------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE  |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE  |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE  |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE  |
++-------+-----------+-------------+------+--------+------------+---------+------+
+4 rows in set (0.00 sec)
+
+mysql> desc company_staff;
++-----------------+----------------------------------------------------+------+-----+---------+-------+
+| Field           | Type                                               | Null | Key | Default | Extra |
++-----------------+----------------------------------------------------+------+-----+---------+-------+
+| company_name    | varchar(20)                                        | YES  |     | NULL    |       |
+| emp_id          | int                                                | NO   | PRI | NULL    |       |
+| age             | tinyint                                            | YES  |     | NULL    |       |
+| experience      | smallint                                           | YES  |     | NULL    |       |
+| gender          | char(1)                                            | YES  |     | NULL    |       |
+| employee_name   | varchar(30)                                        | YES  |     | NULL    |       |
+| qualification   | varchar(20)                                        | YES  |     | NULL    |       |
+| address         | tinytext                                           | YES  |     | NULL    |       |
+| salary          | decimal(10,3)                                      | YES  |     | NULL    |       |
+| department      | enum('HR','IT','Sales','Finance','Support')        | YES  |     | NULL    |       |
+| status          | char(10)                                           | YES  |     | NULL    |       |
+| skills          | set('Java','Python','SQL','Excel','Communication') | YES  |     | NULL    |       |
+| last_updated    | date                                               | YES  |     | NULL    |       |
+| date_of_joining | date                                               | YES  |     | NULL    |       |
+| email           | varchar(20)                                        | YES  |     | NULL    |       |
++-----------------+----------------------------------------------------+------+-----+---------+-------+
+15 rows in set (0.00 sec)
+
+mysql> insert into company_staff(company_name,emp_id,age,experience,gender,employee_name,qualification,address,salary,department,status,skills,last_updated,date_of_joining,email) values('Kavya projects','1',28,3,'M','Swaminadham','Diploma Civil','VSP',35000,'HR','Married','Python','2026-06-27','2024-03-03','swamy123@gmail.com');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select*from company_staff;
++----------------+--------+------+------------+--------+---------------+---------------+---------+-----------+------------+---------+--------+--------------+-----------------+--------------------+
+| company_name   | emp_id | age  | experience | gender | employee_name | qualification | address | salary    | department | status  | skills | last_updated | date_of_joining | email              |
++----------------+--------+------+------------+--------+---------------+---------------+---------+-----------+------------+---------+--------+--------------+-----------------+--------------------+
+| Kavya projects |      1 |   28 |          3 | M      | Swaminadham   | Diploma Civil | VSP     | 35000.000 | HR         | Married | Python | 2026-06-27   | 2024-03-03      | swamy123@gmail.com |
++----------------+--------+------+------------+--------+---------------+---------------+---------+-----------+------------+---------+--------+--------------+-----------------+--------------------+
+1 row in set (0.00 sec)
+
+Approach-2:
+===========
+insert into table-name values(val1,val2-------valn);
+
+mysql> insert into employees values('E005','Kalavathi','Naguru',25,'F','2025-10-10','BNG','Development');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employees values('E006','Manoj','Kumar',27,'M','2023-06-10','Pune','Finance'),('E007','Deepika','Yadav',25,'F','2022-09-04','Mumbai','Marketing');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE         |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+7 rows in set (0.00 sec)
+
+
+in workbench
+-->insert into employees values('E008','Murthy','Sri',32,'M','2018-09-12','VZM','admin');
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE         |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | admin       |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+8 rows in set (0.00 sec)
+
+
+Approach-3
+===========
+insert into table_name(specified columns) values(respective values);
+
+mysql> insert into employees(empid,FirstName,LastName,gender,doj,address) values('E009','Shyam','Sundar','F','2025-05-22','HYD');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE         |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | admin       |
+| E009  | Shyam     | Sundar      | NULL | F      | 2025-05-22 | HYD     | NULL        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> insert into employees(empid,FirstName,LastName,gender,doj,address) values('E009','Shyam','Sundar','F','2025-05-22','HYD');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE         |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | admin       |
+| E009  | Shyam     | Sundar      | NULL | F      | 2025-05-22 | HYD     | NULL        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> insert into employees(empid,gender,FirstName,doj,address,LastName) values('E010','M','Koushik','2025-05-22','HYD','Reddy');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE         |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | admin       |
+| E009  | Shyam     | Sundar      | NULL | F      | 2025-05-22 | HYD     | NULL        |
+| E010  | Koushik   | Reddy       | NULL | M      | 2025-05-22 | HYD     | NULL        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+10 rows in set (0.00 sec)
+
+Approach-4
+============
+insert into table-name set column-name=value,column-name=value,...........column-n=value;
+
+mysql> insert into employees set empid='E011',FirstName='Sudheer',LastName='Kumar',age=45,gender='M',dept='Marketing';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE         |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | admin       |
+| E009  | Shyam     | Sundar      | NULL | F      | 2025-05-22 | HYD     | NULL        |
+| E010  | Koushik   | Reddy       | NULL | M      | 2025-05-22 | HYD     | NULL        |
+| E011  | Sudheer   | Kumar       |   45 | M      | NULL       | NULL    | Marketing   |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+11 rows in set (0.00 sec)
+
+---------------------------------------------------------------Update Command-------------------------------------------------------------------------------
+syntax: update table-name set column-name=value where condition;
+
+mysql> update employees set age=40 where age is NULL;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> update employees set LastName='Kumar' where FirstName='Koushik';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | EEE         |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | admin       |
+| E009  | Shyam     | Sundar      |   40 | F      | 2025-05-22 | HYD     | NULL        |
+| E010  | Koushik   | Kumar       |   40 | M      | 2025-05-22 | HYD     | NULL        |
+| E011  | Sudheer   | Kumar       |   45 | M      | NULL       | NULL    | Marketing   |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+11 rows in set (0.00 sec)
+
+mysql> update employees set dept='IT' where address='VZM';
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | IT          |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | IT          |
+| E009  | Shyam     | Sundar      |   40 | F      | 2025-05-22 | HYD     | NULL        |
+| E010  | Koushik   | Kumar       |   40 | M      | 2025-05-22 | HYD     | NULL        |
+| E011  | Sudheer   | Kumar       |   45 | M      | NULL       | NULL    | Marketing   |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+11 rows in set (0.00 sec)
+
+mysql> update employees set dept='CSE' where dept is NULL;
+Query OK, 2 rows affected (0.01 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | IT          |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | IT          |
+| E009  | Shyam     | Sundar      |   40 | F      | 2025-05-22 | HYD     | CSE         |
+| E010  | Koushik   | Kumar       |   40 | M      | 2025-05-22 | HYD     | CSE         |
+| E011  | Sudheer   | Kumar       |   45 | M      | NULL       | NULL    | Marketing   |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+11 rows in set (0.00 sec)
+
+
+mysql> update employees set doj='2026-06-27' where doj is NULL;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Chaudhary   |   23 | M      | 2019-06-09 | VZM     | IT          |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | IT          |
+| E009  | Shyam     | Sundar      |   40 | F      | 2025-05-22 | HYD     | CSE         |
+| E010  | Koushik   | Kumar       |   40 | M      | 2025-05-22 | HYD     | CSE         |
+| E011  | Sudheer   | Kumar       |   45 | M      | 2026-06-27 | NULL    | Marketing   |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+11 rows in set (0.00 sec)
+
+mysql> update employees set address='VSP',LastName='Sampathirao' where address is NULL OR FirstName='Rohan';
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Sampathirao |   23 | M      | 2019-06-09 | VSP     | IT          |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | IT          |
+| E009  | Shyam     | Sundar      |   40 | F      | 2025-05-22 | HYD     | CSE         |
+| E010  | Koushik   | Kumar       |   40 | M      | 2025-05-22 | HYD     | CSE         |
+| E011  | Sudheer   | Sampathirao |   45 | M      | 2026-06-27 | VSP     | Marketing   |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+11 rows in set (0.00 sec)
+
+--------------------------------------------------------------Delete Command--------------------------------------------------------------------------------
+syntax: delete from table-name where condition;
+--> deletes only particular rows according to condition
+
+mysql> delete from employees where empid='E011';
+Query OK, 1 row affected (0.01 sec)
+
+mysql> delete from employees where age>=40;
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> select*from employees;
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| empid | FirstName | LastName    | age  | gender | doj        | address | dept        |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+| E001  | Kavya     | Sampathirao |   21 | F      | 2024-03-20 | VSP     | CSE         |
+| E002  | Kanchana  | Sampathirao |   19 | F      | 2025-05-22 | HYD     | ECE         |
+| E003  | Sai       | Sampathirao |   21 | M      | 2020-03-23 | HYD     | CSE         |
+| E004  | Rohan     | Sampathirao |   23 | M      | 2019-06-09 | VSP     | IT          |
+| E005  | Kalavathi | Naguru      |   25 | F      | 2025-10-10 | BNG     | Development |
+| E006  | Manoj     | Kumar       |   27 | M      | 2023-06-10 | Pune    | Finance     |
+| E007  | Deepika   | Yadav       |   25 | F      | 2022-09-04 | Mumbai  | Marketing   |
+| E008  | Murthy    | Sri         |   32 | M      | 2018-09-12 | VZM     | IT          |
++-------+-----------+-------------+------+--------+------------+---------+-------------+
+8 rows in set (0.00 sec)
+
+--------------------------------------------------------------Truncate Command------------------------------------------------------------------------------
+syntax: truncate table table_name;
+--> it deletes all rows
+
+mysql> truncate table employees;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select*from employees;
+Empty set (0.01 sec)
+
+---------------------------------------------------------------Drop Command---------------------------------------------------------------------------------
+syntax: drop table table_name;
+--> it deletes complete table
+
+mysql> drop table employees;
+Query OK, 0 rows affected (0.02 sec)
+============================================================================================================================================================
+
+--> auto_increment will automatically increment values , only for int attributes and should be considered as primary key
+
+mysql> create table employees(
+    -> empid int auto_increment primary key,
+    -> name varchar(20),
+    -> department varchar(50)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into employees(name,department) values('Kavya','IT'),('Indhu','HR');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from employees;
++-------+-------+------------+
+| empid | name  | department |
++-------+-------+------------+
+|     1 | Kavya | IT         |
+|     2 | Indhu | HR         |
++-------+-------+------------+
+2 rows in set (0.00 sec)
+
+-----------------------------------------------------create a table from existing table---------------------------------------------------------------------
+
+--> all attributes and their datatypes will be inherited but keys and auto-increment won't be inherited and changes in existing table doesn't change in new table viceversa.
+
+mysql> create table backupemployees as select*from employees;
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> desc backupemployees;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| empid      | int         | NO   |     | 0       |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| department | varchar(50) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select*from backupemployees;
++-------+-------+------------+
+| empid | name  | department |
++-------+-------+------------+
+|     1 | Kavya | IT         |
+|     2 | Indhu | HR         |
++-------+-------+------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employees(name,department) values('Sai','IT');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from backupemployees;
++-------+-------+------------+
+| empid | name  | department |
++-------+-------+------------+
+|     1 | Kavya | IT         |
+|     2 | Indhu | HR         |
++-------+-------+------------+
+2 rows in set (0.00 sec)
+
+mysql> select*from employees;
++-------+-------+------------+
+| empid | name  | department |
++-------+-------+------------+
+|     1 | Kavya | IT         |
+|     2 | Indhu | HR         |
+|     3 | Sai   | IT         |
++-------+-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into backupemployees(name,department) values('Rohan','HR');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from employees;
++-------+-------+------------+
+| empid | name  | department |
++-------+-------+------------+
+|     1 | Kavya | IT         |
+|     2 | Indhu | HR         |
+|     3 | Sai   | IT         |
++-------+-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select*from backupemployees;
++-------+-------+------------+
+| empid | name  | department |
++-------+-------+------------+
+|     1 | Kavya | IT         |
+|     2 | Indhu | HR         |
+|     0 | Rohan | HR         |
++-------+-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into backupemployees(name,department) values('Raju','HR');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select*from backupemployees;
++-------+-------+------------+
+| empid | name  | department |
++-------+-------+------------+
+|     1 | Kavya | IT         |
+|     2 | Indhu | HR         |
+|     0 | Rohan | HR         |
+|     0 | Raju  | HR         |
++-------+-------+------------+
+4 rows in set (0.00 sec)
+
+mysql> desc employees;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| empid      | int         | NO   | PRI | NULL    | auto_increment |
+| name       | varchar(20) | YES  |     | NULL    |                |
+| department | varchar(50) | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> desc backupemployees;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| empid      | int         | NO   |     | 0       |       |
+| name       | varchar(20) | YES  |     | NULL    |       |
+| department | varchar(50) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+-----------------------------------------------------------Calculation attribute directly-------------------------------------------------------------------
+syntax: columnname datatype(size) generated always as(condition by taking other attributes names) stored 
+--> this should be given directly in the creation of table 
+
+mysql> create table products(
+    -> pid int primary key,
+    -> price decimal(10,2),
+    -> quantity int,
+    -> totalamount decimal(10,2) generated always as(price*quantity) stored
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into products(pid,price,quantity) values(1,50,3),(2,100.25,6);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from products;
++-----+--------+----------+-------------+
+| pid | price  | quantity | totalamount |
++-----+--------+----------+-------------+
+|   1 |  50.00 |        3 |      150.00 |
+|   2 | 100.25 |        6 |      601.50 |
++-----+--------+----------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!

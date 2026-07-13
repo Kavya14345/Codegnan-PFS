@@ -1,0 +1,410 @@
+=======================================DATA CONTROL LANGUAGE=======================================
+mysql> use pfs3;
+Database changed
+mysql> create table students(
+    -> sid int,
+    -> name varchar(30),
+    -> mobile varchar(10)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into students values(111,'malli','8748365438'),(222,'arjun','4365865845');
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select*from students;
++------+-------+------------+
+| sid  | name  | mobile     |
++------+-------+------------+
+|  111 | malli | 8748365438 |
+|  222 | arjun | 4365865845 |
++------+-------+------------+
+2 rows in set (0.01 sec)
+
+------------------------------------Creating Users------------------------------------------------
+syntax: create user username identified by 'password';
+
+mysql> create user arjun identified by 'arjun123';
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create user kavya identified by 'kavya46';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create user sai identified by 'sai45';
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create user raju identified by 'raju6454';
+Query OK, 0 rows affected (0.01 sec)
+
+-----------------------------------------Giving permissions to users-------------------------------
+syntax: grant privilege on tablename to username;
+
+mysql> grant select,update on students to arjun;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant insert,update,delete on students to kavya;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant insert,update,delete on students to sai,raju;
+Query OK, 0 rows affected (0.01 sec)
+
+after giving permissions to login go to c drive-->program files-->mysql-->server8.0-->bin> at that location on the top type cmd+enter to get command prompt in that location --> enter in this way to login with username and password so that we can see this-->
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u arjun -p
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs3;
+Database changed
+mysql> select*from students;
++------+-------+------------+
+| sid  | name  | mobile     |
++------+-------+------------+
+|  111 | malli | 8748365438 |
+|  222 | arjun | 4365865845 |
++------+-------+------------+
+2 rows in set (0.00 sec)
+
+mysql> update students set name='arun' where sid=222;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------+-------+------------+
+| sid  | name  | mobile     |
++------+-------+------------+
+|  111 | malli | 8748365438 |
+|  222 | arun  | 4365865845 |
++------+-------+------------+
+2 rows in set (0.00 sec)
+
+mysql> delete from students where sid=222;
+ERROR 1142 (42000): DELETE command denied to user 'arjun'@'localhost' for table 'students'
+mysql> drop table students;
+ERROR 1142 (42000): DROP command denied to user 'arjun'@'localhost' for table 'students'
+ 
+--> as we have given permission only for select and update the tables or databases, the user can only do that. remaining commands cannot be done by them
+
+==============Using another User's================
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u kavya -p
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pfs3;
+Database changed
+mysql> select*from students;
+ERROR 1142 (42000): SELECT command denied to user 'kavya'@'localhost' for table 'students'
+
+-->as at first we didn't give select privilege to user-kavya so the user cannot access it and we gave insert,update,delete so we can do those
+
+mysql> insert into students values(333,'mahi','6734657643'),(444,'babu','5738565737');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> update students set name='mahi' where sid=111;
+ERROR 1143 (42000): SELECT command denied to user 'kavya'@'localhost' for column 'sid' in table 'students'
+
+--> we can't do update because we are selecting by condition and updating. so to update first we need to select. as we didn't give permission we get error
+
+After giving permission: 
+------------------------
+mysql> grant select on students to kavya;
+Query OK, 0 rows affected (0.01 sec)
+now we can perform update,delete and as well as select 
+
+mysql> update students set name='mahi' where sid=111;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------+------+------------+
+| sid  | name | mobile     |
++------+------+------------+
+|  111 | mahi | 8748365438 |
+|  222 | arun | 4365865845 |
+|  333 | mahi | 6734657643 |
+|  444 | babu | 5738565737 |
++------+------+------------+
+4 rows in set (0.00 sec)
+
+mysql> delete from students where sid=444;
+Query OK, 1 row affected (0.01 sec)
+
+------------------------------------Removing Permissions from user--------------------------------
+syntax: revoke privilege on tablename from username;
+
+removing update access from user-arjun:
+---------------------------------------
+mysql> revoke update on students from arjun;
+Query OK, 0 rows affected (0.01 sec)
+--> now user can't perform update 
+mysql> update students set name='Sai' where sid=222;
+ERROR 1142 (42000): UPDATE command denied to user 'arjun'@'localhost' for table 'students'
+
+
+
+===================================Transaction Control Language====================================
+--> A transaction is a sequence of one or more sql operations executed as a single logical unit of work. It ensures that either all operations are completely successfully or none of them are applied to the database.
+
+IQ-A: 
+------
+A transaction is a logical unit of work consisting one or more sql statements that follows the ACID properties to maintain data integrity and consistency.
+
+ACID Properties:
+-----------------
+for any transaction to be happen , it should satisfy all these properties
+
+A--> Atomicity- either all operations happen or none happen.
+C--> Consistency- the database remains in a valid state before and after the transaction.
+I--> Isolation- Concurrent transactions do not interface with each other.
+D--> Durability- Once committed changes are permanent even if the system crashes.
+
+TCL Commands
+=============
+1.Commit
+2.Rollback
+3.Savepoint
+
+mysql> select*from students;
++------+------+------------+
+| sid  | name | mobile     |
++------+------+------------+
+|  111 | mahi | 8748365438 |
+|  222 | arun | 4365865845 |
+|  333 | mahi | 6734657643 |
++------+------+------------+
+3 rows in set (0.00 sec)
+
+--> start transaction will start work on virtual database
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> update students set name='sharma' where sid=111;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | sharma | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | mahi   | 6734657643 |
++------+--------+------------+
+3 rows in set (0.00 sec)
+
+--> rollback will undo the operation
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from students;
++------+------+------------+
+| sid  | name | mobile     |
++------+------+------------+
+|  111 | mahi | 8748365438 |
+|  222 | arun | 4365865845 |
+|  333 | mahi | 6734657643 |
++------+------+------------+
+3 rows in set (0.00 sec)
+
+mysql> update students set name='sharma' where sid=111;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | sharma | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | mahi   | 6734657643 |
++------+--------+------------+
+3 rows in set (0.00 sec)
+
+-->After commit we can't rollback and the database appears as same as before commit
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | sharma | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | mahi   | 6734657643 |
++------+--------+------------+
+3 rows in set (0.00 sec)
+
+--Drawback of Rollback---
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into students values(444,'Suma','9859989555');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | sharma | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | mahi   | 6734657643 |
+|  444 | Suma   | 9859989555 |
++------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> update students set name='mahesh' where sid=111;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | mahesh | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | mahi   | 6734657643 |
+|  444 | Suma   | 9859989555 |
++------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> delete from students where sid=333;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | mahesh | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  444 | Suma   | 9859989555 |
++------+--------+------------+
+3 rows in set (0.00 sec)
+
+-->if we rollback now as i deleted the wrong row , the table will be as same as before transaction. that means it will undo all operations before rollback.
+to solve this we use savepoint command
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | sharma | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | mahi   | 6734657643 |
++------+--------+------------+
+3 rows in set (0.00 sec)
+
+-------------Savepoint-----------------
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into students values(444,'Suma','9859989555');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> update students set name='mahesh' where sid=111;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> savepoint sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+--> till here i saved the transactions  to sp1 point using savepoint
+
+mysql> delete from students where sid=333;# wrong condition 
+Query OK, 1 row affected (0.00 sec)
+
+--> as wrong condition i want to rollback only delete and get the data before delete so we rollback to sp1 which stores the data upto delete
+
+mysql> rollback to sp1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | mahesh | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | mahi   | 6734657643 |
+|  444 | Suma   | 9859989555 |
++------+--------+------------+
+4 rows in set (0.00 sec)
+
+-->now gives the same data before delete and after insert and update also
+
+mysql> delete from students where sid=444;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+---------------------------------------Lock Concept-----------------------------------------------
+Steps:
+1. Set transaction isolation level read committed
+2. Start transaction
+3. first lock by asking for transaction
+4. Do transaction
+5. To release lock -->commit
+
+mysql> set transaction isolation level read committed;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select*from students where sid=333 for update;
++------+------+------------+
+| sid  | name | mobile     |
++------+------+------------+
+|  333 | mahi | 6734657643 |
++------+------+------------+
+1 row in set (0.00 sec)
+
+mysql> update students set name='kumar' where sid=333;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select*from students;
++------+--------+------------+
+| sid  | name   | mobile     |
++------+--------+------------+
+|  111 | mahesh | 8748365438 |
+|  222 | arun   | 4365865845 |
+|  333 | kumar  | 6734657643 |
++------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> Terminal close -- exit!
