@@ -1,0 +1,124 @@
+Day-1:
+========
+static website     --> a website where the content is fixed
+html               --> structure
+css                --> styling
+bootstrap framework--> collection of pre defined code
+javascript         --> dynamic websites- user can able to interact
+react              --> react is a js library
+
+HTML- Hypertext markup language
+Hypertext- text reference to other text
+Markup- a set of rules that defines how content should be displayed on browser
+--> It is a standard markup language that is used to create structure for a webpage.
+--> It contains series of elements that represented by tags.
+
+Tag(<reserved words>)
+-----------------------
+<resv words>--> open tag
+</resv words> --> closing tag
+
+Element
+----------
+open tag + content + close tag
+eg:
+<h1>primary heading</h1>
+1. Container tags or pair tags: which has both open and closing tags
+2. Self closing tags or empty or void tags: which has only one tag acts as both open and closing tag
+eg: <img> 
+
+VS Code
+=========
+live server
+live preview
+prettier
+
+Basic Structure of HTML
+=========================
+Declaration --- it tell the type and version(5) of doc to the browser
+
+<!DOCTYPE html>
+it acts as a root elements
+<html> 
+   head is used to define title, meta data and third party
+   <head>
+      <title> html page</title>
+   </head>
+   <body>
+      <h1>my first webpage</h1>
+   </body>
+</html>
+
+Comments:
+---------
+<!-- content -->
+
+heading tags
+============
+h1-h6
+<h1>largest heading</h1>
+<h2>second largest heading</h2>
+<h3>third largest heading</h3>
+<h4>fourth largest heading</h4>
+<h5>fifth largest heading/ second smallest heading</h5>
+<h6>smallest heading</h6>
+
+paragraph tag:
+=============
+<p>paragraph text</p>
+
+hr-tag:
+=========
+horizontal rule self closing tag
+
+br-tag:
+=========
+break tag self closing tag , it used to insert line break in the text
+
+Attributes:
+===========
+It is used to provide additional information about an element. It is always specified in the start tag. Attributes are always specified in name/value pairs like: name="value".
+
+Anchor tag: it is used for routing or navigation to other pages or websites
+==========
+1.external routing: it is used to navigate to other websites or pages outside the current website or project
+absolute url: complete url with protocol and domain name(external links or c:/users/username/desktop/file.html)
+syntax:
+------
+<a href="c:/users/username/desktop/file.html">local file</a>
+
+href attribute: It is hyperlink reference attribute which is used to specify the url of the page the link goes to,by default it will open in the same tab or window
+
+target attribute: it is used to specify where to open the linked document.
+syntax: <a href="url" target="_self">link text</a>
+        <a href="url" target="_blank">link text</a>
+
+2.internal routing: it is used to navigate to other pages within the same website or project
+relative url: relative to the current page location
+syntax: <a href="day1.html">day1</a>
+
+List tags:
+==========
+1. ordered list: it is used to create a list of items in a specific order,
+syntax:
+<ol>
+  <li>item1</li>
+  <li>item2</li>
+  <li>item3</li>
+</ol>
+2. unordered list: it is used to create a list of items without a specific order,
+syntax:
+<ul>
+  <li>item1</li>
+  <li>item2</li>
+  <li>item3</li>
+</ul>
+3. description list: it is used to create a list of terms and their descriptions.
+syntax:
+<dl>
+  <dt>term1</dt>
+  <dd>description1</dd>
+  <dt>term2</dt>
+  <dd>description2</dd>
+</dl>
+
