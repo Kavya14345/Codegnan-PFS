@@ -1,0 +1,324 @@
+Day-1:
+========
+static website     --> a website where the content is fixed
+html               --> structure
+css                --> styling
+bootstrap framework--> collection of pre defined code
+javascript         --> dynamic websites- user can able to interact
+react              --> react is a js library
+
+HTML- Hypertext markup language
+Hypertext- text reference to other text
+Markup- a set of rules that defines how content should be displayed on browser
+--> It is a standard markup language that is used to create structure for a webpage.
+--> It contains series of elements that represented by tags.
+
+Tag(<reserved words>)
+-----------------------
+<resv words>--> open tag
+</resv words> --> closing tag
+
+Element
+----------
+open tag + content + close tag
+eg:
+<h1>primary heading</h1>
+1. Container tags or pair tags: which has both open and closing tags
+2. Self closing tags or empty or void tags: which has only one tag acts as both open and closing tag
+eg: <img> 
+
+VS Code
+=========
+live server
+live preview
+prettier
+
+Basic Structure of HTML
+=========================
+Declaration --- it tell the type and version(5) of doc to the browser
+
+<!DOCTYPE html>
+it acts as a root elements
+<html> 
+   head is used to define title, meta data and third party
+   <head>
+      <title> html page</title>
+   </head>
+   <body>
+      <h1>my first webpage</h1>
+   </body>
+</html>
+
+Comments:
+---------
+<!-- content -->
+
+heading tags
+============
+h1-h6
+<h1>largest heading</h1>
+<h2>second largest heading</h2>
+<h3>third largest heading</h3>
+<h4>fourth largest heading</h4>
+<h5>fifth largest heading/ second smallest heading</h5>
+<h6>smallest heading</h6>
+
+paragraph tag:
+=============
+<p>paragraph text</p>
+
+hr-tag:
+=========
+horizontal rule self closing tag
+
+br-tag:
+=========
+break tag self closing tag , it used to insert line break in the text
+
+Attributes:
+===========
+It is used to provide additional information about an element. It is always specified in the start tag. Attributes are always specified in name/value pairs like: name="value".
+
+Anchor tag: it is used for routing or navigation to other pages or websites
+==========
+1.external routing: it is used to navigate to other websites or pages outside the current website or project
+absolute url: complete url with protocol and domain name(external links or c:/users/username/desktop/file.html)
+syntax:
+------
+<a href="c:/users/username/desktop/file.html">local file</a>
+
+href attribute: It is hyperlink reference attribute which is used to specify the url of the page the link goes to,by default it will open in the same tab or window
+
+target attribute: it is used to specify where to open the linked document.
+syntax: <a href="url" target="_self">link text</a>
+        <a href="url" target="_blank">link text</a>
+
+2.internal routing: it is used to navigate to other pages within the same website or project
+relative url: relative to the current page location
+syntax: <a href="day1.html">day1</a>
+
+List tags:
+==========
+1. ordered list: it is used to create a list of items in a specific order,
+syntax:
+<ol>
+  <li>item1</li>
+  <li>item2</li>
+  <li>item3</li>
+</ol>
+2. unordered list: it is used to create a list of items without a specific order,
+syntax:
+<ul>
+  <li>item1</li>
+  <li>item2</li>
+  <li>item3</li>
+</ul>
+3. description list: it is used to create a list of terms and their descriptions.
+syntax:
+<dl>
+  <dt>term1</dt>
+  <dd>description1</dd>
+  <dt>term2</dt>
+  <dd>description2</dd>
+</dl>
+
+Day-2:
+========
+
+Tables
+rows
+columns-cells
+tables are defined with table tag,
+rows are defined with tr tag,
+cells are defined with td tag
+heading cells are defined with th tag
+
+Table Attributes:
+=================
+1. Borders: it creates borders
+eg:  <table border="width size">
+2. cellpadding : it creates space within the cell
+eg: <table cellpadding="space size">
+3. cellspacing : it creates space around the cell
+eg: <table cellspacing="space size">
+4. Width: for the width in percentage
+eg : <table width="__%">
+5. Height: for the height in pixels
+eg: <table height="any number">
+
+Internal Routing:
+=================
+eg: <h1 id="contact">contact</h1>
+    <a href='#contact">contact</a>
+
+Images:
+=======
+<img> ==> to show images
+syntax: <img width="" height="" src="" alt="">
+absolute image: take direct link of image website
+eg: <img width="300" height="400" src="https://i.pinimg.com/736x/d4/4a/74/d44a744e44fcd03958bfe93ff985cc69.jpg" alt="Resume Image">
+relative image: take relative path of image in project folder
+eg: <img width="300" height="400" src="panda.jpg" alt="Resume Image">
+
+Git:
+====
+git config --list
+git config --global user.name "Your github name"
+git config --global user.email "your@mail.com"
+
+
+Day-3:
+=======
+Display Behaviour
+====================
+
+1. Block-level elements:
+-----------------------
+this elements start on a new line and take up the full width available. 
+Examples include <div>, <p>, <h1> to <h6>, <ul>, <ol>, <form> and <li>.
+
+2. Inline-level elements:
+-----------------------
+this elements do not start on a new line and only take up as much width as necessary.
+Examples include <span>, <a>, <strong>,<img> , input and <em>.
+
+------------------------
+div and span tags:
+-----------------------
+div and span tags are used to group elements together.
+1. division elements are used to group the sections and apply CSS styles to many elements at once.(sections)
+   <div style="background-color: lightblue;color: black; padding: 10px;">
+      <h2>This is a heading inside a div</h2>
+      <p>This is a paragraph inside a div.</p>
+   </div>
+2. span elements are used to group text and apply CSS styles to many elements at once.(texts)
+   <span style="background-color: yellow; padding: 5px;">This is a span element.</span>
+
+-------------------------------
+Semantic HTML: all are closing tags are required for these elements.
+-------------------------------
+# Semantic HTML elements are those that clearly describe their meaning in a human- and machine-readable way.
+<header> - Represents introductory content, typically a group of introductory or navigational aids.
+<footer> - Represents a footer for its nearest sectioning content or sectioning root element.
+<article> - Represents a self-contained composition in a document, page, application, or site.
+<section> - Represents a standalone section of functionality contained within an HTML document, typically with a heading.
+<nav> - Represents a section of a page that links to other pages or to parts within the page: a section with navigation links.
+<aside> - Represents a portion of a document whose content is only indirectly related to the document's main content.
+<main> - Represents the dominant content of the <body> of a document.
+<figure> - Represents self-contained content, frequently with a caption, and is typically referenced as a single unit.
+
+----------
+Forms
+---------
+-> To collect the data from the user and allowing users to submit the data to the servers
+eg: login form, registration form, contact us form, etc.
+-> the <form> tag is used to create a form in HTML. It can contain various input elements like text fields, checkboxes, radio buttons, submit buttons, etc.
+-> form fields are defined using the <input> tag, which can have different types like text, password, email, number, etc.
+
+Attributes:
+1. Type: Specifies the type of input field (text, password, email, etc.)
+2. Placeholder: Provides a hint or example of what the user should enter in the input field
+3. for and id: The for attribute in the <label> tag is used to associate the label with a specific input field. 
+               The id attribute in the <input> tag is used to uniquely identify the input field. When the user clicks on the label, it will focus on the associated input field.
+4. Action: Specifies the URL where the form data should be sent when the form is submitted. If not specified, the form will submit to the same page.
+5. name: Specifies the name of the input field, which is used to identify the data when it is submitted to the server.
+6. value: Specifies the initial value of the input field. It can be used to pre-fill the field with a default value.
+7. required: Specifies that the input field must be filled out before submitting the form. If the field is empty, the form will not be submitted and an error message will be displayed.
+
+
+Day-4
+========
+
+CSS(Cascading Style sheets)
+============================
+Cascading- flowing
+Style- properties
+Sheets- doc
+
+# CSS means used to describe the presentation of a html document and it deals with colors,text,fonts backgrounds,animations,layouts and media queries.
+
+How to Insert CSS:
+==================
+1. Inline CSS: styles are added to the html element itself by using style attribute
+eg: <h1 style='color:red;'>inline content</h1>
+2. Internal CSS: styles are added to the html document using style tag in head section
+eg: <style></style>
+
+Selectors
+---------
+It is used to target the html elements for apply styles
+syntax:
+selector{
+declaration
+property:value;
+}
+eg:
+h1{
+color:green;
+}
+
+3. External CSS: Styles are defined in external file that has .css extension and linked with link tag
+syntax:
+<link rel="stylesheet" href="file location">
+
+high specificity- high precedence
+inline having high specificity
+it is based on how we define- preferred internal than external
+
+Types of Selectors:
+===================
+1. Simple selectors:
+---------------------
+   a. element selector or tag name selector: styles will be applied based on element
+   eg:
+   h1{
+      color:red;
+   }
+
+   b. Class selector: styles will be applied to the elements according to their class
+   eg:
+   .title{
+      color:green;
+   }
+   <h1 class="title">content</h1>
+   
+   c. id selector: it is denoted by #idname
+   eg:
+   #el1{
+      color:blue;
+   }
+   <h1 class="title" id="el1">content</h1>
+
+Specificity in selectors:
+------------------------
+1. id having high specificity
+2. class having medium specificity
+3. tagname having low specificity
+
+Box model:
+------------------------
+it describes the rectangular boxes that are generated for elements in the document tree and laid out according to the visual formatting model.
+1. content: The content of the box, where text and images appear
+eg: height, width, color, font-size, etc
+2. padding: Clears an area around the content. The padding is transparent
+eg: padding-top, padding-bottom, padding-left, padding-right etc
+    padding: 10px 20px 30px 40px; (top right bottom left)
+    padding: 10px 20px 30px; (top right/left bottom)
+    padding: 10px 20px; (top/bottom right/left)
+    padding: 10px; (top right bottom left)
+3. border: A border that goes around the padding and content
+eg: border-width, border-style, border-color, border-radius, etc
+    border: 10px solid red;(solid, dotted, dashed, double, groove, ridge, inset, outset,none, hidden)
+4. margin: Clears an area outside the border. The margin is transparent
+eg: margin-top, margin-bottom, margin-left, margin-right, etc
+    margin: 10px 20px 30px 40px; (top right bottom left)
+    margin: 10px 20px 30px; (top right/left bottom)
+    margin: 10px 20px; (top/bottom right/left)
+    margin: 10px; (top right bottom left)
+
+
+2. Combinators:
+
+3. Pseudo class:
+
+4. Attribute
